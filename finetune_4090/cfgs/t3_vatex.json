@@ -1,0 +1,61 @@
+{
+  "run_cfg": {
+    "default": "D:\\PycharmProjects\\GRAM\\config/gram/default_run_cfg.json",
+    "learning_rate": 0.0001,
+    "gradient_accumulation_steps": 1,
+    "checkpointing": true,
+    "fp16": true,
+    "use_ddp": false,
+    "mode": "training",
+    "output_dir": "none",
+    "num_train_steps": 0,
+    "first_eval": false,
+    "valid_freq": 10
+  },
+  "model_cfg": {
+    "default": "D:\\PycharmProjects\\GRAM\\config/gram/default_model_cfg.json",
+    "frozen_vision": true,
+    "frozen_audio": true,
+    "checkpointing": true,
+    "max_caption_len": 40,
+    "itm_ratio": 0.0,
+    "itm_rerank_num": 10,
+    "ret_bidirection_evaluation": false
+  },
+  "data_cfg": {
+    "train": [
+      {
+        "type": "annoindexed",
+        "vision": "D:/datasets/vatex/videos",
+        "audio": "D:/datasets/vatex/audios",
+        "vision_format": "video_rawvideo",
+        "vision_sample_num": 4,
+        "audio_sample_num": 1,
+        "n_workers": 4,
+        "training": true,
+        "name": "vatex_ret",
+        "txt": "D:/PycharmProjects/GRAM/datasets/annotations/vatex/descs_ret_train.json",
+        "task": "ret%tv%ta",
+        "epoch": 1.0,
+        "batch_size": 2
+      }
+    ],
+    "val": [
+      {
+        "type": "annoindexed",
+        "vision": "D:/datasets/vatex/videos",
+        "audio": "D:/datasets/vatex/audios",
+        "vision_format": "video_rawvideo",
+        "vision_sample_num": 4,
+        "audio_sample_num": 1,
+        "n_workers": 4,
+        "training": false,
+        "name": "vatex_ret",
+        "txt": "D:/PycharmProjects/GRAM/datasets/annotations/vatex/descs_ret_test.json",
+        "task": "ret%tv%ta",
+        "epoch": 1,
+        "batch_size": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,109 @@
+{
+    "run_cfg": {
+        "checkpoint": "",
+        "output_dir": "./downstream/finetuneVolume256batchlossonlyvolume5Mod150k",
+        "gradient_accumulation_steps": 1,
+        "clip_lr": 5e-07,
+        "optim": "adamw",
+        "learning_rate": 2e-05,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "weight_decay": 0.01,
+        "grad_norm": 2.0,
+        "warmup_ratio": 0.1,
+        "resume": false,
+        "seed": 50,
+        "fp16": true,
+        "bf16": false,
+        "zero_shot": false,
+        "scheduler": "warmup_linear",
+        "new_lr": 0,
+        "new_params_name": [],
+        "valid_freq": 10,
+        "dataset_mix_type": "random",
+        "remove_before_ckpt": true,
+        "first_eval": true,
+        "pretrain_dir": "/leonardo_scratch/fast/IscrC_GenOpt/giordano/VAST/output/vast/pretrain_vast/",
+        "num_train_steps": 0,
+        "save_best": true,
+        "pin_mem": true,
+        "vision_resolution": 224,
+        "use_ddp": false,
+        "mode": "training",
+        "log_steps": 100,
+        "default": "./config/vast/default_run_cfg.json"
+    },
+    "model_cfg": {
+        "model_type": "vast",
+        "itm_ratio": 0.1,
+        "frozen_vision": false,
+        "frozen_audio": false,
+        "checkpointing": true,
+        "max_caption_len": 40,
+        "max_omni_caption_len": 70,
+        "max_subtitle_len": 70,
+        "contra_dim": 512,
+        "inherit_keys": [
+            "vision_encoder_type",
+            "audio_encoder_type",
+            "audio_melbins",
+            "audio_target_length"
+        ],
+        "frame_embedding_type": "adaptive",
+        "vision_resolution": 224,
+        "vision_encoder_type": "evaclip01_giant",
+        "audio_encoder_type": "beats",
+        "audio_melbins": 64,
+        "audio_target_length": 1024,
+        "beam_size": 3,
+        "captioner_mode": false,
+        "generate_nums": 1,
+        "ret_bidirection_evaluation": false,
+        "itm_rerank_num": 50,
+        "evaluation_type": "evaluation_mm",
+        "default": "./config/vast/default_model_cfg.json",
+        "max_vision_sample_num": 2,
+        "max_audio_sample_num": 1
+    },
+    "data_cfg": {
+        "train": [
+            {
+                "type": "annoindexed",
+                "training": true,
+                "name": "finetune_area",
+                "txt": "/leonardo_work/IscrC_GenOpt/datasets/vast27m/annotations150k.json",
+                "vision": "/leonardo_work/IscrC_GenOpt/datasets/vast27m/videos/",
+                "audio": "/leonardo_work/IscrC_GenOpt/datasets/vast27m/audios",
+                "vision_transforms": "crop_flip",
+                "vision_format": "video_rawvideo",
+                "vision_sample_num": 2,
+                "audio_sample_num": 1,
+                "task": "ret%tv%ta",
+                "epoch": 5,
+                "n_workers": 8,
+                "batch_size": 128
+            }
+        ],
+        "val": [
+            {
+                "type": "annoindexed",
+                "training": false,
+                "name": "msrvtt_ret",
+                "txt": "datasets/annotations/msrvtt/descs_ret_test.json",
+                "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/MSRVTT/videos_test",
+                "vision_transforms": "crop_flip",
+                "vision_format": "video_rawvideo",
+                "audio": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/MSRVTT/audios_test",
+                "vision_sample_num": 8,
+                "audio_sample_num": 1,
+                "task": "ret%tvas",
+                "n_workers": 8,
+                "batch_size": 64
+            }
+        ],
+        "concatenated_nums": 1
+    },
+    "local_rank": 1
+}
